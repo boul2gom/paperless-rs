@@ -1,0 +1,25 @@
+[package]
+name = "paperless-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[dependencies]
+derive_more = "0.99.17"
+async-trait = "0.1.74"
+base64 = "0.21.5"
+
+[dependencies.serde]
+version = "1.0.193"
+features = ["derive"]
+
+[dependencies.tokio]
+version = "1.35.0"
+features = ["full"]
+
+[dependencies.reqwest]
+version = "0.11.22"
+features = [
+    "json",
+    "default-tls"
+]

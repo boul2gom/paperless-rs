@@ -1,0 +1,45 @@
+name: Github CI - Development
+
+on:
+  push:
+    branches: [ develop, master ]
+
+jobs:
+  setup-and-build:
+    name: Setup and build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: 📁 Check out the repository
+        uses: actions/checkout@v3.6.0
+
+      - name: 📦 Cache Rust toolchain
+        uses: Swatinem/rust-cache@v2
+        with:
+          prefix-key: rust-toolchain-
+
+      - name: 🛠️ Set up Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          components: rustfmt, clippy
+
+      - name: ✅ Check with Clippy linter
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: -- -D warnings
+
+      - name: 💄 Format code with Cargo formatter
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: 🦀 Install Rust dependencies and build library
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
