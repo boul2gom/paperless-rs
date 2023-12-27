@@ -6,6 +6,7 @@ on:
 
 jobs:
   setup-and-build:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     name: Setup and build
     runs-on: ubuntu-latest
     permissions:
