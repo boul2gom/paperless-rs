@@ -1,11 +1,10 @@
-sudo apt-get update
-sudo apt-get upgrade -y
-sudo apt-get install -y nala
+apt-get update
+apt-get upgrade -y
+apt-get install -y nala
 
-sudo nala install -y curl git jq sudo zsh vim gnupg2 openssl build-essential
+nala install -y curl git jq sudo zsh vim gnupg2 openssl build-essential
 
-## Install rustup and common components
-curl --proto '=https' --tlsv1.3 https://sh.rustup.rs -sSf | sh -s -- -y
+## Install common components
 rustup component add rustfmt
 rustup component add clippy
 
@@ -16,7 +15,7 @@ cargo install cargo-readme
 cargo install cargo-watch
 cargo install cargo-edit
 
-## setup and install oh-my-zsh
+## Setup and install oh-my-zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 cp -R /root/.oh-my-zsh /home/$USERNAME
 cp /root/.zshrc /home/$USERNAME
