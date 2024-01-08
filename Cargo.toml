@@ -23,7 +23,7 @@ async-trait = "0.1.77"
 base64 = "0.21.5"
 
 [dependencies.serde]
-version = "1.0.194"
+version = "1.0.195"
 features = ["derive"]
 
 [dependencies.tokio]
