@@ -6,6 +6,23 @@ use crate::authorization::{AuthorizationType, CertificateType};
 use reqwest::{Client, Method, RequestBuilder};
 use serde::Deserialize;
 
+/// This is the library entrypoint. From this struct you can interact with the Paperless API.
+/// You can create a new instance of this struct with the `new` method.
+/// 
+/// # Example
+/// 
+/// ```rust
+/// use paperless_api::PaperlessClient;
+/// use paperless_api::authorization::AuthorizationType;
+/// 
+/// #[tokio::main]
+/// async fn main() {
+///     let credentials = Credentials::new("username", "password");
+///     let auth_type = AuthorizationType::Basic(credentials);
+/// 
+///    let mut client = PaperlessClient::new("https://paperless.example.com", auth_type, None).await.unwrap();
+/// }
+/// ```
 pub struct PaperlessClient {
     pub client: Client,
 
@@ -14,6 +31,13 @@ pub struct PaperlessClient {
 }
 
 impl PaperlessClient {
+    /// Creates a new instance of the PaperlessClient struct.
+    /// 
+    /// # Arguments
+    /// 
+    /// * `base_url` - The base url of the Paperless instance. This should be the url without the `/api` part.
+    /// * `auth_type` - The authorization type to use. This can be either `Basic` or `Token`.
+    /// * `certificate_path` - The path to the certificate file. This is only needed if you are using a self-signed certificate.
     pub async fn new(
         base_url: &str,
         auth_type: AuthorizationType,
@@ -39,6 +63,12 @@ impl PaperlessClient {
         })
     }
 
+    /// Prepares an endpoint for a request.
+    /// 
+    /// # Arguments
+    /// 
+    /// * `method` - The HTTP method to use for the request.
+    /// * `url` - The url to call.
     pub async fn prepare_endpoint(
         &mut self,
         method: Method,
@@ -50,6 +80,11 @@ impl PaperlessClient {
         Ok(request_builder.header(header, value))
     }
 
+    /// Calls an endpoint and returns the response.
+    /// 
+    /// # Arguments
+    /// 
+    /// * `request_builder` - The request builder to use for the request.
     pub async fn call_endpoint<T>(
         &mut self,
         request_builder: RequestBuilder,

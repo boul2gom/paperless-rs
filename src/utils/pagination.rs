@@ -3,7 +3,9 @@ use reqwest::Method;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
-///
+/// A struct that represents a response from the Paperless API.
+/// Its created by endpoints that return a list of items, and
+/// should not be instantiated manually.
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Response<T> {
     pub count: u64,
@@ -14,22 +16,27 @@ pub struct Response<T> {
     pub results: Vec<T>,
 }
 
+/// A trait that represents a page of items from the Paperless API.
 #[async_trait::async_trait]
 pub trait Page<R> {
+    /// Gets the next page of items, if there is one.
     async fn get_next_page(
         &self,
         client: &mut PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
+    /// Gets the previous page of items, if there is one.
     async fn get_previous_page(
         &self,
         client: &mut PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
 
+    /// Gets a specific page of items.
     async fn get_page(
         &self,
         page: u64,
         client: &mut PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
+    /// Gets all items from all pages.
     async fn get_all(
         &self,
         client: &mut PaperlessClient,
