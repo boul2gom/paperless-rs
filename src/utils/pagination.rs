@@ -3,6 +3,7 @@ use reqwest::Method;
 use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 
+///
 #[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Response<T> {
     pub count: u64,

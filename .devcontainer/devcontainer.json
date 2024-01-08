@@ -1,0 +1,16 @@
+{
+  "name": "Codespace Container",
+  "extensions": [
+    "cschleiden.vscode-github-actions",
+    "matklad.rust-analyzer",
+    "serayuzgur.crates",
+    "vadimcn.vscode-lldb",
+    "usernamehw.errorlens",
+    "bungcip.better-toml"
+  ],
+  "dockerFile": "Dockerfile",
+  "settings": {
+    "editor.formatOnSave": true,
+    "terminal.integrated.shell.linux": "/usr/bin/zsh",
+  }
+}
