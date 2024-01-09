@@ -21,3 +21,4 @@
   <img src="https://img.shields.io/github/stars/boul2gom/paperless-rs?label=Stars&logo=Github" alt="Stars">
   <img src="https://img.shields.io/github/forks/boul2gom/paperless-rs?label=Forks&logo=Github" alt="Forks">
 </p>
+
