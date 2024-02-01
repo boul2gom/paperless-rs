@@ -1,7 +1,7 @@
+pub mod config;
 pub mod correspondents;
 pub mod document_types;
 pub mod documents;
-pub mod config;
 pub mod tags;
 
 use crate::PaperlessClient;

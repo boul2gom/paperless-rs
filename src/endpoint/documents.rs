@@ -56,7 +56,7 @@ impl PaperlessClient {
         &mut self,
         query: &str,
     ) -> Result<Response<Document>, Box<dyn std::error::Error>> {
-        let formatted_query = query.replace(" ", "%20");
+        let formatted_query = query.replace(' ', "%20");
         let url = format!("{}/documents/?query={}", self.base_url, formatted_query);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;

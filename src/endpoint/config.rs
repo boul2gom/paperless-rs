@@ -38,21 +38,21 @@ pub enum Mode {
     Skip,
     Redo,
     Force,
-    SkipNoArchive
+    SkipNoArchive,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum Clean {
     Clean,
     CleanFinal,
-    None
+    None,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub enum SkipArchiveFile {
     Never,
     Always,
-    WithText
+    WithText,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
@@ -62,7 +62,7 @@ pub enum ColorStrategy {
     CMYK,
     LeaveColorUnchanged,
     UseDeviceIndependentColor,
-} 
+}
 
 impl PaperlessClient {
     pub async fn fetch_configuration(
