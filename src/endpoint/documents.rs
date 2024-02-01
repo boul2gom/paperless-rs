@@ -26,9 +26,11 @@ pub struct Document {
     pub notes: Vec<String>,
     //TODO: Add permissions
     pub custom_fields: Vec<Field>,
+
+    pub __search_hit__: Option<SearchHit>,
 }
 
-#[derive(Serialize, Deserialize, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct Metadata {
     pub original_checksum: String,
     pub original_size: String,
@@ -42,7 +44,25 @@ pub struct Metadata {
     pub archive_metadata: Option<String>,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+pub struct SearchHit {
+    pub rank: u64,
+    pub score: f64,
+    pub highlights: Vec<String>,
+}
+
 impl PaperlessClient {
+    pub async fn search_documents(
+        &mut self,
+        query: &str,
+    ) -> Result<Response<Document>, Box<dyn std::error::Error>> {
+        let formatted_query = query.replace(" ", "%20");
+        let url = format!("{}/documents/?query={}", self.base_url, formatted_query);
+
+        let request_builder = self.prepare_endpoint(Method::GET, url).await?;
+        self.call_endpoint(request_builder).await
+    }
+
     pub async fn fetch_documents(
         &mut self,
     ) -> Result<Response<Document>, Box<dyn std::error::Error>> {

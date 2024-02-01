@@ -1,0 +1,6 @@
+brace_style = "SameLineWhere"
+color = "Always"
+
+imports_indent = "Block"
+reorder_imports = true
+group_imports = "StdExternalCrate"

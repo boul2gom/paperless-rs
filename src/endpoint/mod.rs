@@ -1,7 +1,8 @@
-mod correspondents;
-mod document_types;
+pub mod correspondents;
+pub mod document_types;
 pub mod documents;
-mod tags;
+pub mod config;
+pub mod tags;
 
 use crate::PaperlessClient;
 use reqwest::Method;
@@ -25,6 +26,16 @@ pub struct Task {
 }
 
 impl PaperlessClient {
+    pub async fn search_autocomplete(
+        &mut self,
+        term: &str,
+    ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+        let url = format!("{}/search/autocomplete/?term={}", self.base_url, term);
+
+        let request_builder = self.prepare_endpoint(Method::GET, url).await?;
+        self.call_endpoint(request_builder).await
+    }
+
     pub async fn fetch_logs_producers(
         &mut self,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
