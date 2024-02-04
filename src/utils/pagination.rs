@@ -24,25 +24,23 @@ pub trait Page<R> {
     /// Gets the next page of items, if there is one.
     async fn get_next_page(
         &self,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
     /// Gets the previous page of items, if there is one.
     async fn get_previous_page(
         &self,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
 
     /// Gets a specific page of items.
     async fn get_page(
         &self,
         page: u64,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
     /// Gets all items from all pages.
-    async fn get_all(
-        &self,
-        client: &mut PaperlessClient,
-    ) -> Result<Vec<R>, Box<dyn std::error::Error>>;
+    async fn get_all(&self, client: &PaperlessClient)
+        -> Result<Vec<R>, Box<dyn std::error::Error>>;
 }
 
 #[async_trait::async_trait]
@@ -52,7 +50,7 @@ where
 {
     async fn get_next_page(
         &self,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
         if let Some(next) = &self.next {
             let request_builder = client
@@ -67,7 +65,7 @@ where
 
     async fn get_previous_page(
         &self,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
         if let Some(previous) = &self.previous {
             let request_builder = client
@@ -83,7 +81,7 @@ where
     async fn get_page(
         &self,
         page: u64,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
         let new_url = if let Some(next) = &self.next {
             let page_index = next.find("page=").ok_or("Malformed next page url")?;
@@ -106,7 +104,7 @@ where
 
     async fn get_all(
         &self,
-        client: &mut PaperlessClient,
+        client: &PaperlessClient,
     ) -> Result<Vec<R>, Box<dyn std::error::Error>> {
         let mut all_items = Vec::new();
         let mut current_page = self.get_page(1, client).await?;
