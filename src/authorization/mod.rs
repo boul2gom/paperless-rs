@@ -1,6 +1,5 @@
 use base64::engine::general_purpose::STANDARD;
 use base64::Engine;
-use derive_more::Constructor;
 
 /// A struct that represents the type of authorization to use.
 pub enum AuthorizationType {
@@ -9,12 +8,7 @@ pub enum AuthorizationType {
 }
 
 /// A struct that represents the credentials to use for basic authorization.
-#[derive(Constructor)]
-pub struct Credentials {
-    pub username: String,
-    pub password: String,
-    pub encoded: Option<String>,
-}
+pub struct Credentials(String);
 
 /// A struct that represents the type of certificate to use.
 pub enum CertificateType {
@@ -24,26 +18,29 @@ pub enum CertificateType {
 
 impl AuthorizationType {
     /// Converts the authorization type to a header.
-    pub fn as_header(&mut self) -> (String, String) {
+    pub fn as_header(&self) -> (String, String) {
         match self {
             AuthorizationType::Basic(credentials) => {
-                if let Some(encoded) = &credentials.encoded {
-                    return ("Authorization".to_string(), format!("Basic {}", encoded));
-                }
-
-                let encoded_credentials =
-                    STANDARD.encode(format!("{}:{}", credentials.username, credentials.password));
-                credentials.encoded = Some(encoded_credentials.clone());
-
-                (
-                    "Authorization".to_string(),
-                    format!("Basic {}", encoded_credentials),
-                )
+                ("Authorization".to_string(), format!("Basic {}", credentials.0))
             }
             AuthorizationType::Token(token) => {
                 ("Authorization".to_string(), format!("Token {}", token))
             }
         }
+    }
+}
+
+impl Credentials {
+    /// Creates a new instance of the Credentials struct.
+    ///
+    /// # Arguments
+    ///
+    /// * `username` - The username to use for the credentials.
+    /// * `password` - The password to use for the credentials.
+    pub fn new(username: String, password: String) -> Self {
+        let encoded = STANDARD.encode(format!("{}:{}", username, password));
+
+        Self(encoded)
     }
 }
 

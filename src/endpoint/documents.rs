@@ -53,7 +53,7 @@ pub struct SearchHit {
 
 impl PaperlessClient {
     pub async fn search_documents(
-        &mut self,
+        &self,
         query: &str,
     ) -> Result<Response<Document>, Box<dyn std::error::Error>> {
         let formatted_query = query.replace(' ', "%20");
@@ -64,7 +64,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_documents(
-        &mut self,
+        &self,
     ) -> Result<Response<Document>, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/", self.base_url);
 
@@ -73,7 +73,7 @@ impl PaperlessClient {
     }
 
     pub async fn download_document(
-        &mut self,
+        &self,
         document_id: u64,
         original: bool,
     ) -> Result<Document, Box<dyn std::error::Error>> {
@@ -85,7 +85,7 @@ impl PaperlessClient {
     }
 
     pub async fn preview_document(
-        &mut self,
+        &self,
         document_id: u64,
         original: bool,
     ) -> Result<String, Box<dyn std::error::Error>> {
@@ -97,7 +97,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_document_thumbnail(
-        &mut self,
+        &self,
         document_id: u64,
     ) -> Result<String, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/thumb/", self.base_url, document_id);
@@ -107,7 +107,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_document_metadata(
-        &mut self,
+        &self,
         document_id: u64,
     ) -> Result<Metadata, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/metadata/", self.base_url, document_id);
@@ -117,7 +117,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_document_notes(
-        &mut self,
+        &self,
         document_id: u64,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/notes/", self.base_url, document_id);
@@ -127,7 +127,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_document_share_links(
-        &mut self,
+        &self,
         document_id: u64,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/share-links/", self.base_url, document_id);

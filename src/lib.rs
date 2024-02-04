@@ -70,7 +70,7 @@ impl PaperlessClient {
     /// * `method` - The HTTP method to use for the request.
     /// * `url` - The url to call.
     pub async fn prepare_endpoint(
-        &mut self,
+        &self,
         method: Method,
         url: String,
     ) -> Result<RequestBuilder, Box<dyn std::error::Error>> {
@@ -86,7 +86,7 @@ impl PaperlessClient {
     ///
     /// * `request_builder` - The request builder to use for the request.
     pub async fn call_endpoint<T>(
-        &mut self,
+        &self,
         request_builder: RequestBuilder,
     ) -> Result<T, Box<dyn std::error::Error>>
     where

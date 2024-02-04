@@ -27,7 +27,7 @@ pub struct Task {
 
 impl PaperlessClient {
     pub async fn search_autocomplete(
-        &mut self,
+        &self,
         term: &str,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/search/autocomplete/?term={}", self.base_url, term);
@@ -37,7 +37,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_logs_producers(
-        &mut self,
+        &self,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/logs/", self.base_url);
 
@@ -46,7 +46,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_logs(
-        &mut self,
+        &self,
         producer: &str,
     ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/logs/{}/", self.base_url, producer);
@@ -55,14 +55,14 @@ impl PaperlessClient {
         self.call_endpoint(request_builder).await
     }
 
-    pub async fn fetch_tasks(&mut self) -> Result<Vec<Task>, Box<dyn std::error::Error>> {
+    pub async fn fetch_tasks(&self) -> Result<Vec<Task>, Box<dyn std::error::Error>> {
         let url = format!("{}/tasks/", self.base_url);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;
         self.call_endpoint(request_builder).await
     }
 
-    pub async fn fetch_task(&mut self, task_id: &str) -> Result<Task, Box<dyn std::error::Error>> {
+    pub async fn fetch_task(&self, task_id: &str) -> Result<Task, Box<dyn std::error::Error>> {
         let url = format!("{}/tasks/{}/", self.base_url, task_id);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;

@@ -20,7 +20,7 @@ pub struct Correspondent {
 
 impl PaperlessClient {
     pub async fn fetch_correspondents(
-        &mut self,
+        &self,
     ) -> Result<Response<Correspondent>, Box<dyn std::error::Error>> {
         let url = format!("{}/correspondents/", self.base_url);
 
@@ -29,7 +29,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_correspondent(
-        &mut self,
+        &self,
         correspondent_id: u64,
     ) -> Result<Correspondent, Box<dyn std::error::Error>> {
         let url = format!("{}/correspondents/{}/", self.base_url, correspondent_id);

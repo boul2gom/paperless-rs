@@ -20,14 +20,14 @@ pub struct Tag {
 }
 
 impl PaperlessClient {
-    pub async fn fetch_tags(&mut self) -> Result<Response<Tag>, Box<dyn std::error::Error>> {
+    pub async fn fetch_tags(&self) -> Result<Response<Tag>, Box<dyn std::error::Error>> {
         let url = format!("{}/tags/", self.base_url);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;
         self.call_endpoint(request_builder).await
     }
 
-    pub async fn fetch_tag(&mut self, tag_id: u64) -> Result<Tag, Box<dyn std::error::Error>> {
+    pub async fn fetch_tag(&self, tag_id: u64) -> Result<Tag, Box<dyn std::error::Error>> {
         let url = format!("{}/tags/{}/", self.base_url, tag_id);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;

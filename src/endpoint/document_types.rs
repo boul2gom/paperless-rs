@@ -19,7 +19,7 @@ pub struct DocumentType {
 
 impl PaperlessClient {
     pub async fn fetch_document_types(
-        &mut self,
+        &self,
     ) -> Result<Response<DocumentType>, Box<dyn std::error::Error>> {
         let url = format!("{}/document_types/", self.base_url);
 
@@ -28,7 +28,7 @@ impl PaperlessClient {
     }
 
     pub async fn fetch_document_type(
-        &mut self,
+        &self,
         document_type_id: u64,
     ) -> Result<DocumentType, Box<dyn std::error::Error>> {
         let url = format!("{}/document_types/{}/", self.base_url, document_type_id);
