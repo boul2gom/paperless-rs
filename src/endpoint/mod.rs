@@ -4,9 +4,10 @@ pub mod document_types;
 pub mod documents;
 pub mod tags;
 
-use crate::PaperlessClient;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
+
+use crate::PaperlessClient;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Task {
@@ -36,9 +37,7 @@ impl PaperlessClient {
         self.call_endpoint(request_builder).await
     }
 
-    pub async fn fetch_logs_producers(
-        &self,
-    ) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+    pub async fn fetch_logs_producers(&self) -> Result<Vec<String>, Box<dyn std::error::Error>> {
         let url = format!("{}/logs/", self.base_url);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;

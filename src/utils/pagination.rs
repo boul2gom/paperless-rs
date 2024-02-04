@@ -1,7 +1,9 @@
-use crate::PaperlessClient;
+use std::fmt::Debug;
+
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
-use std::fmt::Debug;
+
+use crate::PaperlessClient;
 
 /// A struct that represents a response from the Paperless API.
 /// Its created by endpoints that return a list of items, and

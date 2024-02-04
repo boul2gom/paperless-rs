@@ -1,7 +1,8 @@
-use crate::utils::pagination::Response;
-use crate::PaperlessClient;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
+
+use crate::utils::pagination::Response;
+use crate::PaperlessClient;
 
 #[derive(Serialize, Deserialize, Debug, Default)]
 pub struct Correspondent {

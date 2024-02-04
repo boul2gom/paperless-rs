@@ -1,8 +1,9 @@
+use reqwest::Method;
+use serde::{Deserialize, Serialize};
+
 use crate::utils::pagination::Response;
 use crate::utils::Field;
 use crate::{ternary, PaperlessClient};
-use reqwest::Method;
-use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
 pub struct Document {
@@ -63,9 +64,7 @@ impl PaperlessClient {
         self.call_endpoint(request_builder).await
     }
 
-    pub async fn fetch_documents(
-        &self,
-    ) -> Result<Response<Document>, Box<dyn std::error::Error>> {
+    pub async fn fetch_documents(&self) -> Result<Response<Document>, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/", self.base_url);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;

@@ -20,9 +20,10 @@ impl AuthorizationType {
     /// Converts the authorization type to a header.
     pub fn as_header(&self) -> (String, String) {
         match self {
-            AuthorizationType::Basic(credentials) => {
-                ("Authorization".to_string(), format!("Basic {}", credentials.0))
-            }
+            AuthorizationType::Basic(credentials) => (
+                "Authorization".to_string(),
+                format!("Basic {}", credentials.0),
+            ),
             AuthorizationType::Token(token) => {
                 ("Authorization".to_string(), format!("Token {}", token))
             }

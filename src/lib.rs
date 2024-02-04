@@ -2,9 +2,10 @@ pub mod authorization;
 pub mod endpoint;
 pub mod utils;
 
-use crate::authorization::{AuthorizationType, CertificateType};
 use reqwest::{Client, Method, RequestBuilder};
 use serde::Deserialize;
+
+use crate::authorization::{AuthorizationType, CertificateType};
 
 /// This is the library entrypoint. From this struct you can interact with the Paperless API.
 /// You can create a new instance of this struct with the `new` method.
@@ -17,7 +18,7 @@ use serde::Deserialize;
 ///
 /// #[tokio::main]
 /// async fn main() {
-///     let credentials = Credentials::new(String::from("username"), String::from("password"), None);
+///     let credentials = Credentials::new(String::from("username"), String::from("password"));
 ///     let auth_type = AuthorizationType::Basic(credentials);
 ///
 ///    let mut client = PaperlessClient::new("https://paperless.example.com", auth_type, None).await.unwrap();

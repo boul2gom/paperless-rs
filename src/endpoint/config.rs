@@ -65,9 +65,7 @@ pub enum ColorStrategy {
 }
 
 impl PaperlessClient {
-    pub async fn fetch_configuration(
-        &self,
-    ) -> Result<Configuration, Box<dyn std::error::Error>> {
+    pub async fn fetch_configuration(&self) -> Result<Configuration, Box<dyn std::error::Error>> {
         let url = format!("{}/config/", self.base_url);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;
