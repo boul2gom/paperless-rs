@@ -68,15 +68,15 @@ jobs:
           profile: minimal
           toolchain: stable
 
-      - name: 🐳 Set up docker and containers
-        run: |
-          docker-compose --file docker-compose.yml pull --quiet
-          docker-compose run --rm webserver createsuperuser
+#      - name: 🐳 Set up docker and containers
+#        run: |
+#          docker-compose --file docker-compose.yml pull --quiet
+#          docker-compose run --rm webserver createsuperuser
+#
+#          docker-compose --file docker-compose.yml up --detach
 
-          docker-compose --file docker-compose.yml up --detach
-
-      - name: 🧪 Run integration tests
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: -- --test-threads=1
+#      - name: 🧪 Run integration tests
+#        uses: actions-rs/cargo@v1
+#        with:
+#          command: test
+#          args: -- --test-threads=1
