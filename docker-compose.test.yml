@@ -32,6 +32,10 @@
 
 version: "3.8"
 
+volumes:
+  redis-data:
+  postgres-data:
+
 services:
   broker:
     image: docker.io/library/redis:7-alpine
