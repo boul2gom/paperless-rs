@@ -68,10 +68,10 @@ jobs:
 
       - name: 🐳 Set up docker and containers
         run: |
-          docker compose --file docker-compose.test.yml pull --quiet
-          docker compose run --rm webserver createsuperuser
+          docker-compose --file docker-compose.test.yml pull --quiet
+          docker-compose run --rm webserver createsuperuser
 
-          docker compose --file docker-compose.test.yml up --detach
+          docker-compose --file docker-compose.test.yml up --detach
 
       - name: 🧪 Run integration tests
         uses: actions-rs/cargo@v1
