@@ -1,3 +1,4 @@
+use bytes::Bytes;
 use reqwest::Method;
 use serde::{Deserialize, Serialize};
 
@@ -71,28 +72,39 @@ impl PaperlessClient {
         self.call_endpoint(request_builder).await
     }
 
+    pub async fn fetch_document(
+        &self,
+        document_id: u64,
+    ) -> Result<Document, Box<dyn std::error::Error>> {
+        let url = format!("{}/documents/{}/", self.base_url, document_id);
+
+        let request_builder = self.prepare_endpoint(Method::GET, url).await?;
+        self.call_endpoint(request_builder).await
+    }
+
     pub async fn download_document(
         &self,
         document_id: u64,
         original: bool,
-    ) -> Result<Document, Box<dyn std::error::Error>> {
+        download_path: &str,
+    ) -> Result<(), Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/download/", self.base_url, document_id);
         let query_url = format!("{}{}", url, ternary!(original, "?original=true", ""));
 
         let request_builder = self.prepare_endpoint(Method::GET, query_url).await?;
-        self.call_endpoint(request_builder).await
+        self.call_downloadable_endpoint(request_builder, download_path).await
     }
 
     pub async fn preview_document(
         &self,
         document_id: u64,
         original: bool,
-    ) -> Result<String, Box<dyn std::error::Error>> {
+    ) -> Result<Bytes, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/preview/", self.base_url, document_id);
         let query_url = format!("{}{}", url, ternary!(original, "?original=true", ""));
 
         let request_builder = self.prepare_endpoint(Method::GET, query_url).await?;
-        self.call_endpoint(request_builder).await
+        self.call_binary_endpoint(request_builder).await
     }
 
     pub async fn fetch_document_thumbnail(

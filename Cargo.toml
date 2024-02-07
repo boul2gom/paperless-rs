@@ -21,6 +21,7 @@ keywords = ["paperless", "documents", "async"]
 derive_more = "0.99.17"
 async-trait = "0.1.77"
 base64 = "0.21.7"
+bytes = "1.5.0"
 
 [dependencies.serde]
 version = "1.0.196"
@@ -36,3 +37,7 @@ features = [
     "json",
     "default-tls"
 ]
+
+[dev-dependencies]
+printpdf = "0.7.0"
+lazy_static = "1.4.0"

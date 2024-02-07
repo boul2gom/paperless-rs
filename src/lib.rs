@@ -2,8 +2,10 @@ pub mod authorization;
 pub mod endpoint;
 pub mod utils;
 
+use bytes::Bytes;
 use reqwest::{Client, Method, RequestBuilder};
 use serde::Deserialize;
+use tokio::{fs::File, io::{AsyncWriteExt, BufWriter}};
 
 use crate::authorization::{AuthorizationType, CertificateType};
 
@@ -103,5 +105,36 @@ impl PaperlessClient {
 
         let error = response.text().await?;
         Err(error.into())
+    }
+
+    pub async fn call_binary_endpoint(
+        &self,
+        request_builder: RequestBuilder,
+    ) -> Result<Bytes, Box<dyn std::error::Error>> {
+        let response = request_builder.send().await?;
+        let status = response.status();
+
+        if status.is_success() {
+            let value = response.bytes().await?;
+            return Ok(value);
+        }
+
+        let error = response.text().await?;
+        Err(error.into())
+    }
+
+    pub async fn call_downloadable_endpoint(
+        &self,
+        request_builder: RequestBuilder,
+        download_path: &str,
+    ) -> Result<(), Box<dyn std::error::Error>> {
+        let bytes = self.call_binary_endpoint(request_builder).await?;
+        let file = File::create(download_path).await?;
+        let mut writer = BufWriter::new(file);
+
+        writer.write_all(&bytes).await?;
+        writer.flush().await?;
+
+        Ok(())
     }
 }
