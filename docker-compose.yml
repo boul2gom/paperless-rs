@@ -55,7 +55,6 @@ services:
 
   pdf-toolbox:
     image: docker.io/gotenberg/gotenberg:7.10
-    network_mode: host
     hostname: pdf-toolbox
     container_name: pdf-toolbox
     ports:
@@ -78,7 +77,6 @@ services:
       - database
       - pdf-toolbox
       - file-parser
-    network_mode: host
     hostname: webserver
     container_name: webserver
     ports:
