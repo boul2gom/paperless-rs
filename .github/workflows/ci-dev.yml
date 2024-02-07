@@ -30,13 +30,13 @@ jobs:
       - name: ✅ Check with Clippy linter
         uses: actions-rs/cargo@v1
         with:
-          command: +nightly clippy
+          command: clippy
           args: -- -D warnings
 
       - name: 💄 Format code with Cargo formatter
         uses: actions-rs/cargo@v1
         with:
-          command: +nightly fmt
+          command: fmt
           args: --all -- --check
 
       - name: 🦀 Install Rust dependencies and build library
