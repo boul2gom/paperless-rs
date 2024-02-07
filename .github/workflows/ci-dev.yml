@@ -24,19 +24,19 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: nightly
           components: rustfmt, clippy
 
       - name: ✅ Check with Clippy linter
         uses: actions-rs/cargo@v1
         with:
-          command: clippy
+          command: +nightly clippy
           args: -- -D warnings
 
       - name: 💄 Format code with Cargo formatter
         uses: actions-rs/cargo@v1
         with:
-          command: fmt
+          command: +nightly fmt
           args: --all -- --check
 
       - name: 🦀 Install Rust dependencies and build library
@@ -70,7 +70,7 @@ jobs:
         run: |
           docker compose --file ${{ github.workspace }}/docker-compose.test.yml pull --quiet
           docker compose run --rm webserver createsuperuser
-          
+
           docker compose --file ${{ github.workspace }}/docker-compose.test.yml up --detach
 
       - name: 🧪 Run integration tests

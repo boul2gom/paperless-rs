@@ -5,7 +5,10 @@ pub mod utils;
 use bytes::Bytes;
 use reqwest::{Client, Method, RequestBuilder};
 use serde::Deserialize;
-use tokio::{fs::File, io::{AsyncWriteExt, BufWriter}};
+use tokio::{
+    fs::File,
+    io::{AsyncWriteExt, BufWriter},
+};
 
 use crate::authorization::{AuthorizationType, CertificateType};
 

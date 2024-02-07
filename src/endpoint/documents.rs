@@ -92,7 +92,8 @@ impl PaperlessClient {
         let query_url = format!("{}{}", url, ternary!(original, "?original=true", ""));
 
         let request_builder = self.prepare_endpoint(Method::GET, query_url).await?;
-        self.call_downloadable_endpoint(request_builder, download_path).await
+        self.call_downloadable_endpoint(request_builder, download_path)
+            .await
     }
 
     pub async fn preview_document(

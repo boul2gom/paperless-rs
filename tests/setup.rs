@@ -11,13 +11,14 @@ lazy_static::lazy_static! {
 #[cfg(test)]
 pub async fn setup_tests() -> PaperlessClient {
     use paperless_rs::authorization::{AuthorizationType, Credentials};
-    
+
     println!("Setting up tests...");
     let credentials = Credentials::new("boul2gom".to_string(), "ci-env-password".to_string());
     let auth_type = AuthorizationType::Basic(credentials);
 
     let client = PaperlessClient::new("http://127.0.0.1:8080", auth_type, None).await;
-    let client = client.expect("Failed to create Paperless client, please check your running environment...");
+    let client = client
+        .expect("Failed to create Paperless client, please check your running environment...");
 
     for id in 1..=10 {
         let content = format!("Sample document n°{}", id);
@@ -29,7 +30,11 @@ pub async fn setup_tests() -> PaperlessClient {
 }
 
 #[cfg(test)]
-pub fn create_pdf(title: &str, content: &str, path: &str) -> Result<(), Box<dyn std::error::Error>> {
+pub fn create_pdf(
+    title: &str,
+    content: &str,
+    path: &str,
+) -> Result<(), Box<dyn std::error::Error>> {
     use std::{fs::File, io::BufWriter};
 
     use printpdf::{Mm, PdfDocument};
