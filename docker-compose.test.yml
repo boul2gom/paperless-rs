@@ -86,7 +86,7 @@ services:
     volumes:
       - ./watched-folder:/usr/src/paperless/consume
 
-    env_file: ./docker-compose.env
+    env_file: ./docker-compose.test.env
     environment:
       PAPERLESS_REDIS: redis://broker:6379
       PAPERLESS_DBHOST: database

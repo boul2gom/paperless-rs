@@ -68,7 +68,6 @@ jobs:
 
       - name: 🐳 Set up docker and containers
         run: |
-          ls
           docker compose --file docker-compose.test.yml pull --quiet
           docker compose run --rm webserver createsuperuser
 
