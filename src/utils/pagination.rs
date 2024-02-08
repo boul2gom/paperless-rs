@@ -18,29 +18,42 @@ pub struct Response<T> {
     pub results: Vec<T>,
 }
 
+impl<R> Response<R> {
+    pub fn update_response(&mut self, new_response: Response<R>) {
+        self.count = new_response.count;
+        self.next = new_response.next;
+        self.previous = new_response.previous;
+
+        self.all = new_response.all;
+        self.results = new_response.results;
+    }
+}
+
 /// A trait that represents a page of items from the Paperless API.
 #[async_trait::async_trait]
 pub trait Page<R> {
     /// Gets the next page of items, if there is one.
     async fn get_next_page(
-        &self,
+        &mut self,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
     /// Gets the previous page of items, if there is one.
     async fn get_previous_page(
-        &self,
+        &mut self,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
 
     /// Gets a specific page of items.
     async fn get_page(
-        &self,
+        &mut self,
         page: u64,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>>;
     /// Gets all items from all pages.
-    async fn get_all(&self, client: &PaperlessClient)
-        -> Result<Vec<R>, Box<dyn std::error::Error>>;
+    async fn get_all(
+        &mut self,
+        client: &PaperlessClient,
+    ) -> Result<Vec<R>, Box<dyn std::error::Error>>;
 }
 
 #[async_trait::async_trait]
@@ -49,14 +62,16 @@ where
     R: for<'de> Deserialize<'de> + Clone + Debug + Send + Sync,
 {
     async fn get_next_page(
-        &self,
+        &mut self,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
         if let Some(next) = &self.next {
             let request_builder = client
                 .prepare_endpoint(Method::GET, next.to_string())
                 .await?;
-            let response = client.call_endpoint(request_builder).await?;
+            let response: Response<R> = client.call_endpoint(request_builder).await?;
+
+            self.update_response(response.clone());
             return Ok(response);
         }
 
@@ -64,14 +79,16 @@ where
     }
 
     async fn get_previous_page(
-        &self,
+        &mut self,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
         if let Some(previous) = &self.previous {
             let request_builder = client
                 .prepare_endpoint(Method::GET, previous.to_string())
                 .await?;
-            let response = client.call_endpoint(request_builder).await?;
+            let response: Response<R> = client.call_endpoint(request_builder).await?;
+
+            self.update_response(response.clone());
             return Ok(response);
         }
 
@@ -79,7 +96,7 @@ where
     }
 
     async fn get_page(
-        &self,
+        &mut self,
         page: u64,
         client: &PaperlessClient,
     ) -> Result<Response<R>, Box<dyn std::error::Error>> {
@@ -98,24 +115,21 @@ where
         };
 
         let request_builder = client.prepare_endpoint(Method::GET, new_url).await?;
-        let response = client.call_endpoint(request_builder).await?;
+        let response: Response<R> = client.call_endpoint(request_builder).await?;
+
+        self.update_response(response.clone());
         Ok(response)
     }
 
     async fn get_all(
-        &self,
+        &mut self,
         client: &PaperlessClient,
     ) -> Result<Vec<R>, Box<dyn std::error::Error>> {
         let mut all_items = Vec::new();
-        let mut current_page = self.get_page(1, client).await?;
+        all_items.extend(self.results.clone());
 
-        all_items.extend(current_page.clone().results);
-
-        while let Some(_next) = &current_page.next {
-            current_page = current_page.get_next_page(client).await?;
-
-            let results = std::mem::take(&mut current_page.results);
-            all_items.extend(results);
+        while let Ok(page) = self.get_next_page(client).await {
+            all_items.extend(page.clone().results);
         }
 
         Ok(all_items)

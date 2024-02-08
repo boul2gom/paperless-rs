@@ -16,7 +16,7 @@ pub async fn setup_tests() -> PaperlessClient {
     let credentials = Credentials::new("boul2gom".to_string(), "ci-env-password".to_string());
     let auth_type = AuthorizationType::Basic(credentials);
 
-    let client = PaperlessClient::new("http://127.0.0.1:8080", auth_type, None).await;
+    let client = PaperlessClient::new("http://127.0.0.1:8000", auth_type, None).await;
     let client = client
         .expect("Failed to create Paperless client, please check your running environment...");
 

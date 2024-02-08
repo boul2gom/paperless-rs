@@ -12,7 +12,7 @@ pub struct Document {
     pub title: String,
     pub content: String,
 
-    pub tags: Vec<String>,
+    pub tags: Vec<u64>,
     pub document_type: Option<String>,
     pub correspondent: Option<String>,
 
@@ -29,7 +29,8 @@ pub struct Document {
     //TODO: Add permissions
     pub custom_fields: Vec<Field>,
 
-    pub __search_hit__: Option<SearchHit>,
+    #[serde(rename = "__search_hit__")]
+    pub search_hit: Option<SearchHit>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, Default)]
@@ -50,7 +51,6 @@ pub struct Metadata {
 pub struct SearchHit {
     pub rank: u64,
     pub score: f64,
-    pub highlights: Vec<String>,
 }
 
 impl PaperlessClient {
