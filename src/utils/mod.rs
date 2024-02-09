@@ -15,7 +15,7 @@ macro_rules! ternary {
 }
 
 /// A simple struct that represents a field in a document.
-#[derive(Serialize, Deserialize, Clone, Debug)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Field {
     pub field: String,
     pub value: String,

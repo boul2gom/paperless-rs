@@ -6,7 +6,7 @@ use crate::utils::pagination::Response;
 use crate::utils::Field;
 use crate::{ternary, PaperlessClient};
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Document {
     pub id: u64,
     pub title: String,
@@ -33,7 +33,7 @@ pub struct Document {
     pub search_hit: Option<SearchHit>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct Metadata {
     pub original_checksum: String,
     pub original_size: String,
@@ -47,7 +47,7 @@ pub struct Metadata {
     pub archive_metadata: Option<String>,
 }
 
-#[derive(Serialize, Deserialize, Clone, Debug, Default)]
+#[derive(Serialize, Deserialize, Clone, Debug, Default, PartialEq, PartialOrd)]
 pub struct SearchHit {
     pub rank: u64,
     pub score: f64,
