@@ -111,11 +111,11 @@ impl PaperlessClient {
     pub async fn fetch_document_thumbnail(
         &self,
         document_id: u64,
-    ) -> Result<String, Box<dyn std::error::Error>> {
+    ) -> Result<Bytes, Box<dyn std::error::Error>> {
         let url = format!("{}/documents/{}/thumb/", self.base_url, document_id);
 
         let request_builder = self.prepare_endpoint(Method::GET, url).await?;
-        self.call_endpoint(request_builder).await
+        self.call_binary_endpoint(request_builder).await
     }
 
     pub async fn fetch_document_metadata(
