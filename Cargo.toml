@@ -21,7 +21,7 @@ keywords = ["paperless", "documents", "async"]
 derive_more = "0.99.18"
 async-trait = "0.1.80"
 base64 = "0.22.1"
-bytes = "1.6.0"
+bytes = "1.7.1"
 
 [dependencies.serde]
 version = "1.0.209"
