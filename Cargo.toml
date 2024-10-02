@@ -28,7 +28,7 @@ version = "1.0.210"
 features = ["derive"]
 
 [dependencies.tokio]
-version = "1.39.3"
+version = "1.40.0"
 features = ["full"]
 
 [dependencies.reqwest]
