@@ -32,7 +32,7 @@ version = "1.40.0"
 features = ["full"]
 
 [dependencies.reqwest]
-version = "0.12.7"
+version = "0.12.8"
 features = [
     "json",
     "default-tls"
