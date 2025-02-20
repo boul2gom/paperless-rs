@@ -23,7 +23,7 @@ base64 = "0.22.1"
 bytes = "1.10.0"
 
 [dependencies.serde]
-version = "1.0.217"
+version = "1.0.218"
 features = ["derive"]
 
 [dependencies.tokio]
